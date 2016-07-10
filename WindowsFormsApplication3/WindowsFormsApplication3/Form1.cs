@@ -46,9 +46,12 @@ namespace WindowsFormsApplication3
 
         private async void button1_Click(object sender, EventArgs e)
         {
-            
-            string k = textBox1.Text.ToString(), result, mx = textBox2.Text.ToString(), mi = textBox3.Text.ToString(), s = textBox4.Text.ToString();
-            string datum = comboBox2.Text+"-" + comboBox2.Text + "-" + comboBox1.Text;
+            string k, result, mx, mi, s, datum;
+            k = textBox1.Text.ToString();  
+            mx = textBox2.Text.ToString();
+            mi = textBox3.Text.ToString(); 
+            s = textBox4.Text.ToString();
+            datum = comboBox2.Text+"-" + comboBox2.Text + "-" + comboBox1.Text;
             using (var client = new HttpClient())
             {
                 var scoreRequest = new
@@ -102,9 +105,8 @@ namespace WindowsFormsApplication3
 
                 result = transform(result);
                 if (result[0] == 'F' || result[0] == 'E' || result[0] == 'P') label7.Text = "Pogrešno unešeni podaci!";
-                else    
-                //label7.Text = pomoc.ToString();
-                    label7.Text = result;
+                else if (k == "" || mi == "" || mx == "" || s == "") label7.Text = "Unesite sve podatke!";
+                else label7.Text = result;
             } 
         }
        public string transform (string result) 
