@@ -62,8 +62,9 @@ namespace WindowsFormsApplication3
                             "input1", 
                             new StringTable() 
                             {
-                                ColumnNames = new string[] {"dt", "LandAverageTemperature", "LandMaxTemperature", "LandMinTemperature", "LandAndOceanAverageTemperature"},
-                                Values = new string[,] {  { datum, k, mx, mi, s }  }
+                                ColumnNames = new string[] {"dt", "LandAverageTemperature", "LandMaxTemperature", 
+                                    "LandMinTemperature"},
+                                Values = new string[,] {  { datum, k, mx, mi }  }
                             }
                         },
                     },
@@ -71,36 +72,18 @@ namespace WindowsFormsApplication3
                     {
                     }
                 };
-                const string apiKey = "Sh6w1sPgtQ64mc23JyJ+useFPwMfp9pba4s1w3EggX6e5O7ozllz7ZPamdt/mwp6mwNgaPYq7SbTUPap917NAg=="; // Replace this with the API key for the web service
+                const string apiKey = "Sh6w1sPgtQ64mc23JyJ+useFPwMfp9pba4s1w3EggX6e5O7ozllz7ZPamdt/mwp6mwNgaPYq7SbTUPap917NAg=="; 
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);
 
                 client.BaseAddress = new Uri("https://ussouthcentral.services.azureml.net/workspaces/1075110f45444a87b66616d0048c5152/services/175b792875cc40dc9003bac066b75b63/execute?api-version=2.0&details=true");
-
-                // WARNING: The 'await' statement below can result in a deadlock if you are calling this code from the UI thread of an ASP.Net application.
-                // One way to address this would be to call ConfigureAwait(false) so that the execution does not attempt to resume on the original context.
-                // For instance, replace code such as:
-                //      result = await DoSomeTask()
-                // with the following:
-                //      result = await DoSomeTask().ConfigureAwait(false)
-
-
                 HttpResponseMessage response = await client.PostAsJsonAsync("", scoreRequest);
-
                 if (response.IsSuccessStatusCode)
                 {
-                     result = await response.Content.ReadAsStringAsync();
-                    
+                     result = await response.Content.ReadAsStringAsync();               
                 }
                 else
                 {
-                   
-
-                    // Print the headers - they include the requert ID and the timestamp, which are useful for debugging the failure
-            
-
-                    result = await response.Content.ReadAsStringAsync();
-                    
-
+                    result = await response.Content.ReadAsStringAsync();                   
                 }
 
                 result = transform(result);
